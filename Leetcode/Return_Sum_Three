@@ -1,0 +1,51 @@
+/*
+** Given an integer array nums, 
+** return all the triplets [nums[i], nums[j], nums[k]] such that 
+** i != j, i != k, and j != k, 
+** and nums[i] + nums[j] + nums[k] == 0.
+*/
+
+class Solution {
+    public List<List<Integer>> returnSumThreeList(int[] nums) {
+        //hash sets, by their nature, are a unique list
+        Set<List<Integer>> set = new HashSet<>();
+        if(nums.length == 0) {
+            return new ArrayList<>();
+        } 
+        
+        //sorting makes quick, easily deduced comparisons without requiring every item in passed array get tested
+        Arrays.sort(nums);
+        
+        int sum=0;
+        
+        for(int pos1=0; pos1 < nums.length-2 ; pos1++) {
+            /*
+            ** start comparision on furthest ends of the nums array, using position 1 as the baseline
+            ** position two as the negative amount
+            ** and position three as the positive amount
+            */
+            
+            //pivot points
+            int pos2 = pos1+1;
+            int pos3 = nums.length-1;
+            
+            //progressively bring position two and three closer together until one crosses over the other, then proceed on to increment position 1 again
+            while(pos2 < pos3) {
+                sum = nums[pos1]+nums[pos2]+nums[pos3];
+                
+                //if zero passes, log success and incerment position two up and three down
+                if(sum == 0) {
+                    set.add(Arrays.asList(nums[pos1],nums[pos2++],nums[pos3--]));
+                } else if(sum<0) { 
+                    //sum is too negative, bring negative position closer to zero
+                    pos2++;
+                } else { 
+                    //sum is too positive, bring positive position closer to zero
+                    pos3--;
+                }
+
+            }
+        }
+        return new ArrayList<>(set);
+    }
+}
