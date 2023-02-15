@@ -1,0 +1,26 @@
+public class MyClass {
+    public static void main(String args[]) {
+      int[] nums = {-1,0,3,5,9,12};
+      int target = 9;
+      
+      System.out.println(search(nums, target));
+    }
+    
+    public static int search(int[] nums, int target) {
+        //takes in sorted array, searches for target number, if not found returns -1
+        int startPoint = 0;
+        int endPoint = nums.length - 1;
+        int pivotPoint;
+        while (startPoint <= endPoint) {
+            pivotPoint = startPoint + (endPoint - startPoint) / 2;
+            if (nums[pivotPoint] == target) {
+                return pivotPoint;
+            } else if (nums[pivotPoint] < target) {
+                startPoint = pivotPoint + 1;
+            } else {
+                endPoint = pivotPoint - 1;
+            }
+        }
+        return -1;
+    }
+}
